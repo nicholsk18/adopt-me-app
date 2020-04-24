@@ -3,3 +3,5 @@
     <code>{JSON.stringify(props, null, 4)}</code>
 </pre>
 passing function down to children or using function as event listener use arrow function
+
+how to trap focus in a modal
