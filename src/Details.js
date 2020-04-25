@@ -1,10 +1,10 @@
 import React from "react";
 import pet from "@frontendmasters/pet";
 import { navigate } from "@reach/router";
+import { connect } from "react-redux";
 import Modal from "./Modal";
 import Carousel from "./Carousel";
 import ErrorBoundary from "./ErrorBoundary";
-import ThemeContext from "./ThemeContext";
 
 class Details extends React.Component {
     // constructor(props) {
@@ -56,16 +56,12 @@ class Details extends React.Component {
                 <div>
                     <h1>{name}</h1>
                     <h2>{`${animal} - ${breed} - ${location}`}</h2>
-                    <ThemeContext.Consumer>
-                        {(themeHook) => (
-                            <button
-                                onClick={this.toggleModal}
-                                style={{ backgroundColor: themeHook[0] }}
-                            >
-                                Adopt {name}
-                            </button>
-                        )}
-                    </ThemeContext.Consumer>
+                    <button
+                        onClick={this.toggleModal}
+                        style={{ backgroundColor: this.props.themeHook }}
+                    >
+                        Adopt {name}
+                    </button>
                     <p>{description}</p>
                     {showModal ? (
                         <Modal>
@@ -86,10 +82,14 @@ class Details extends React.Component {
     }
 }
 
+const mapStateToProps = ({ theme }) => ({ theme });
+
+const WrappedDetails = connect(mapStateToProps)(Details);
+
 export default function DetailsWithErrorBoundary(props) {
     return (
         <ErrorBoundary>
-            <Details {...props} />
+            <WrappedDetails {...props} />
         </ErrorBoundary>
     );
 }
